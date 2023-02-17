@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Clock from './Clock.js';
 
-function App() {
+function TimePicker(){
+    const [time,setTime] =useState(new Date())
+    
+    useEffect(()=>{
+        setInterval(()=>setTime(new Date()),1000)
+    },[])
+
+    return time;        
+   
+}
+
+export default function App() {
+  const time = TimePicker();
+  const [color, setColor] = useState('color');
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="body">
+      <p className="color" >
+        Pick a color:{' '}
+        <select value={color} onChange={e => setColor(e.target.value)}>
+          <option value="lightcoral" style={{ color: "lightcoral" }}>lightcoral</option>
+          <option value="green" style={{ color: "green" }}>green</option>
+          <option value="blue" style={{ color: "blue" }}>blue</option>
+          <option value="maroon" style={{ color: "maroon" }}>maroon</option>
+        </select>
+      </p>
+      <Clock color={color} time={time.toLocaleTimeString()} />
     </div>
   );
 }
-
-export default App;
